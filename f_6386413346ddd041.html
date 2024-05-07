@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Электронное табло заказа</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 10px;
+			padding: 5px;
+			width: auto;
+			background: url(./css/fone1.jpg);
+		}
+
+		h1 {
+			text-align: center;
+			margin-top: 10px;
+			color: white;
+		}
+		h2 {
+			text-align: center;
+			margin-top: 10px;
+			
+		}
+		.container {
+			border-radius: 30px;
+			font-style: normal;
+			color: white;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-around;
+			margin: 10px;
+			text-align: center;
+			word-spacing: 5px;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.2);
+
+		}
+
+		.wrapper {
+			transition-duration: 1s;
+			padding-left: 30px;
+			text-align: left;
+			background-color: white;
+			border-radius: 30px;
+			width: 22%;
+			background: rgba(0, 0, 0, 0.2);
+			display: table-cell;
+			transition: all 1s ease 0s;
+
+		}
+		@keyframes show {
+  		from { opacity: 0; }
+  		to { opacity: 1; }
+	}
+
+		.colonka {
+			padding-left: 10px;
+			background-color: white;
+			border-radius: 30px;
+ 			padding: 10px;
+ 			line-height: 20px;
+            display: table-cell;
+			width:75%;
+			text-align: left;
+			flex-wrap: wrap;
+			background: rgba(0, 0, 0, 0.2);
+
+		}
+		
+		.item {
+			padding: 10px;
+			background-color: #f2f2f2;
+			border-radius: 5px;
+			margin-bottom: 10px;
+			cursor: pointer;
+		}
+		
+		.item:hover {
+			
+			background-color: #ddd;
+		}
+		.ready {
+			
+			background-color: #b3ffb3;
+		}
+		.preparing {
+			
+			background-color: #ffffb3;
+		}
+	</style>
+</head>
+<body>
+	<h1>Электронное табло заявок на доработку программы</h1>
+	<div class="container">
+		<div class="colonka">
+			<h2>В очереди</h2>
+			<div id="preparing"></div>
+		</div>
+		<div class="wrapper">
+    <h2>В разработке</h2>
+			<div id="ready"></div>
+		</div>
+</div>
+	<script>
+		function getOrders() {
+    fetch('http://obmen1chttp.tavria-rus.ru/itil_corp/hs/ItilZakaz/analitika')
+        .then(response => response.json())
+        .then(data => {
+            let orders = data['analitika'];
+            console.log(orders);
+            let container = document.getElementById('preparing');
+            container.innerHTML = ''; // очистить контейнер перед обновлением данных
+            let count = 0;
+            let column1 = document.createElement('div');
+            column1.classList.add('wrapper');
+            let column2 = document.createElement('div');
+            column2.classList.add('wrapper');
+            let column3 = document.createElement('div');
+            column3.classList.add('wrapper');
+            let column4 = document.createElement('div');
+            column4.classList.add('wrapper');
+            let column5 = document.createElement('div');
+            column5.classList.add('wrapper');
+            let column6 = document.createElement('div');
+            column6.classList.add('wrapper');
+            let column7 = document.createElement('div');
+            column7.classList.add('wrapper');
+            let column8 = document.createElement('div');
+            column8.classList.add('wrapper');
+            let column9 = document.createElement('div');
+            column9.classList.add('wrapper');
+            let column10 = document.createElement('div');
+            column10.classList.add('wrapper');
+            orders.forEach(order => {
+                let orderElement = document.createElement('div');
+                orderElement.innerHTML = `<br><b><u>Заявка ${order['_ind']}</u></br></b><br>${order['name']}</br><font color="yellow"><b>${order['initiator']}</font></b>`;
+                
+                column1.appendChild(orderElement);
+                if (count <= 7) {
+                }else if (count > 7) {
+                column2.appendChild(orderElement);	
+                } 
+                if (count <= 15) {
+                }else if (count > 15) {
+                column3.appendChild(orderElement);	
+                } 
+                if (count <= 23) {
+                }else if (count > 23) {
+                column4.appendChild(orderElement);	
+                } 
+                if (count <= 31) {
+                }else if (count > 31) {
+                column5.appendChild(orderElement);	
+                } 
+                if (count <= 39) {
+                }else if (count > 39) {
+                column6.appendChild(orderElement);	
+                } 
+                if (count <= 47) {
+                }else if (count > 47) {
+                column7.appendChild(orderElement);	
+                } 
+                if (count <= 55) {
+                }else if (count > 55) {
+                column8.appendChild(orderElement);	
+                } 
+                if (count <= 63) {
+                }else if (count > 63) {
+                column9.appendChild(orderElement);	
+                } 
+                if (count <= 70) {
+                }else if (count > 70) {
+                column10.appendChild(orderElement);	
+                } 
+                count++;
+            });
+            container.appendChild(column1);
+            container.appendChild(column2);
+            container.appendChild(column3);
+			
+
+			setInterval(() => container.replaceChild(column4, column1), 15000);
+			setInterval(() => container.replaceChild(column5, column2), 15000);
+			setInterval(() => container.replaceChild(column6, column3), 15000);
+			setInterval(() => container.replaceChild(column7, column4), 30000);
+			setInterval(() => container.replaceChild(column8, column5), 30000);
+			setInterval(() => container.replaceChild(column9, column6), 30000);
+        })
+        .catch(error => console.error(error));
+    fetch('http://obmen1chttp.tavria-rus.ru/itil_corp/hs/ItilZakaz/razrabotka')
+        .then(response => response.json())
+        .then(data => {
+            let orders = data['razrabotka'];
+            console.log(orders);
+            let container = document.getElementById('ready');
+            container.innerHTML = ''; // очистить контейнер перед обновлением данных
+            let count = 0;
+            let column1 = document.createElement('div');
+            column1.classList.add('wrapper');
+            let column2 = document.createElement('div');
+            column2.classList.add('wrapper');
+            let column3 = document.createElement('div');
+            column3.classList.add('wrapper');
+            let column4 = document.createElement('div');
+            column4.classList.add('wrapper');
+            let column5 = document.createElement('div');
+            column5.classList.add('wrapper');
+            orders.forEach(order => {
+                let orderElement = document.createElement('div');
+                orderElement.innerHTML = `<br><b><u>Заявка ${order['_ind']}</u></br></b><br>${order['name']}</br><font color="yellow"><b>${order['initiator']}</font></b>`;
+                
+                column1.appendChild(orderElement);
+                if (count <= 8) {
+                }else if (count > 8) {
+                column2.appendChild(orderElement);	
+                } 
+                if (count <= 15) {
+                }else if (count > 15) {
+                column3.appendChild(orderElement);	
+                } 
+                if (count <= 25) {
+                }else if (count > 25) {
+                column4.appendChild(orderElement);	
+                } 
+                if (count <= 29) {
+                }else if (count > 29) {
+                column5.appendChild(orderElement);	
+                } 
+                count++;
+            });
+            container.appendChild(column1);
+            setInterval(() => container.replaceChild(column2, column1), 15000);
+			setInterval(() => container.replaceChild(column3, column2), 30000);
+/*			setInterval(() => container.replaceChild(column4, column3), 15000);*/
+        })
+        .catch(error => console.error(error));
+}
+		// вызываем функцию для получения заказов при загрузке страницы
+		getOrders();
+
+		// обновляем заказы каждые 5 секунд
+		setInterval(getOrders, 45000);
+		
+	</script>
+</body>
+</html>
+
